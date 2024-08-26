@@ -1,37 +1,63 @@
-# This is where I will: 
-## Ask the user what they would like to do/ what equation 
-## Call those functions in the calculator file 
-## Put that in a while loop to see if they want to use another equation 
-
 import calculator
+import streamlit as st
 
-def main(): 
-
+def main():
     equation = calculator.Calculator()
 
-    print("Hello! Welcome to the Calculator")
-    while True: 
-        user_input = input("Please choose what you would like to do:\n(1)Add\n(2)Subtract\n(3)Multiply\n(4)Divide")
-        
-        if (user_input == "1"): 
-            add_input = input("Give me the first number you want to add")
-            add_input1 = input("Give me the second number you want to add")
-            print(f"{add_input} + {add_input1} = {equation.add(add_input, add_input1)}")
+    st.title("Calculator")
+    st.write("This is a calculator with basic and complex operations")
 
-        if (user_input == "2"): 
-            subtract_input = input("Give me the number you want to subtract from")
-            subtract_input1 = input("Give me the number you want to subtract")
-            print(f"{subtract_input} - {subtract_input1} = {equation.subtract(subtract_input, subtract_input1)}")
+    # Input fields for two numbers
+    num1 = st.number_input("Enter the first number:", value=0.0)
+    num2 = st.number_input("Enter the second number:", value=0.0)
 
-        if (user_input == "3"): 
-            subtract_input = input("Give me the number you want to subtract from")
-            subtract_input1 = input("Give me the number you want to subtract")
-            print(f"{subtract_input} - {subtract_input1} = {equation.subtract(subtract_input, subtract_input1)}")
-        if (user_input == "4"): 
-            pass
-        else: 
-            print("Not a valid option ")
-    
+    # Create two rows with four buttons each
+    col1, col2, col3, col4 = st.columns(4)
+    col5, col6, col7, col8 = st.columns(4)
 
+    # Basic operations
+    if col1.button("Add"):
+        result = equation.add(num1, num2)
+        st.write(f"{num1} + {num2} = {result}")
 
-main()
+    if col2.button("Subtract"):
+        result = equation.subtract(num1, num2)
+        st.write(f"{num1} - {num2} = {result}")
+
+    if col3.button("Multiply"):
+        result = equation.multiply(num1, num2)
+        st.write(f"{num1} * {num2} = {result}")
+
+    if col4.button("Divide"):
+        if num2 != 0:
+            result = equation.divide(num1, num2)
+            st.write(f"{num1} / {num2} = {result}")
+        else:
+            st.error("Cannot divide by zero!")
+
+    # Complex operations
+    if col5.button("Power"):
+        result = equation.power(num1, num2)
+        st.write(f"{num1} ^ {num2} = {result}")
+
+    if col6.button("Square Root"):
+        result = equation.square_root(num1)
+        st.write(f"√{num1} = {result}")
+
+    if col7.button("Logarithm"):
+        if num1 > 0:
+            result = equation.logarithm(num1)
+            st.write(f"log({num1}) = {result}")
+        else:
+            st.error("Cannot calculate logarithm of non-positive number!")
+
+    if col8.button("Factorial"):
+        if num1.is_integer() and num1 >= 0:
+            result = equation.factorial(int(num1))
+            st.write(f"{int(num1)}! = {result}")
+        else:
+            st.error("Factorial is only defined for non-negative integers!")
+
+if __name__ == "__main__":
+    main()
+
