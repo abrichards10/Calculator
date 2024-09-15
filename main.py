@@ -11,9 +11,10 @@ def main():
     num1 = st.number_input("Enter the first number:", value=0.0)
     num2 = st.number_input("Enter the second number:", value=0.0)
 
-    # Create two rows with four buttons each
+    # Create three rows with four buttons each
     col1, col2, col3, col4 = st.columns(4)
     col5, col6, col7, col8 = st.columns(4)
+    col9, col10, col11, col12 = st.columns(4)  # New row for additional functions
 
     # Basic operations
     if col1.button("Add"):
@@ -58,6 +59,18 @@ def main():
         else:
             st.error("Factorial is only defined for non-negative integers!")
 
+    # New button for absolute value
+    if col9.button("Absolute Value"):
+        result = equation.absolute_value(num1)
+        st.write(f"|{num1}| = {result}")
+
+    # New button for circle area
+    if col10.button("Circle Area"):
+        if num1 >= 0:
+            result = equation.circle_area(num1)
+            st.write(f"Area of circle with radius {num1} = {result}")
+        else:
+            st.error("Radius cannot be negative!")
+
 if __name__ == "__main__":
     main()
-

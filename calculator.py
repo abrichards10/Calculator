@@ -2,7 +2,6 @@
 # Use the math library for more complicated equations 
 
 import math 
-import streamlit as st
 
 class Calculator: 
 
@@ -65,5 +64,11 @@ class Calculator:
             x2 = (-b - math.sqrt(discriminant)) / (2*a)
             return f"Two roots: {x1} and {x2}"
 
+    def absolute_value(self, number):
+        return abs(number)
 
+    def circle_area(self, radius):
+        if radius < 0:
+            return "Error: Radius cannot be negative"
+        return math.pi * radius ** 2
 
