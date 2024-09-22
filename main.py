@@ -5,72 +5,67 @@ def main():
     equation = calculator.Calculator()
 
     st.title("Calculator")
-    st.write("This is a calculator with basic and complex operations")
 
-    # Input fields for two numbers
-    num1 = st.number_input("Enter the first number:", value=0.0)
-    num2 = st.number_input("Enter the second number:", value=0.0)
+    # Input field for display
+    display = st.text_input("", value="0", key="display")
 
-    # Create three rows with four buttons each
-    col1, col2, col3, col4 = st.columns(4)
-    col5, col6, col7, col8 = st.columns(4)
-    col9, col10, col11, col12 = st.columns(4)  # New row for additional functions
+    # Create a container for buttons
+    with st.container():
+        # Create button layout with smaller columns
+        cols = st.columns(7)
+        
+        # Number buttons
+        # First row: 0, 1, 2
+        if cols[1].button("0", key="btn_0"):
+            display += "0"
+        if cols[2].button("1", key="btn_1"):
+            display += "1"
+        if cols[3].button("2", key="btn_2"):
+            display += "2"
 
-    # Basic operations
-    if col1.button("Add"):
-        result = equation.add(num1, num2)
-        st.write(f"{num1} + {num2} = {result}")
+        # Second row: 3, 4, 5
+        if cols[1].button("3", key="btn_3"):
+            display += "3"
+        if cols[2].button("4", key="btn_4"):
+            display += "4"
+        if cols[3].button("5", key="btn_5"):
+            display += "5"
 
-    if col2.button("Subtract"):
-        result = equation.subtract(num1, num2)
-        st.write(f"{num1} - {num2} = {result}")
+        # Third row: 6, 7, 8
+        if cols[1].button("6", key="btn_6"):
+            display += "6"
+        if cols[2].button("7", key="btn_7"):
+            display += "7"
+        if cols[3].button("8", key="btn_8"):
+            display += "8"
 
-    if col3.button("Multiply"):
-        result = equation.multiply(num1, num2)
-        st.write(f"{num1} * {num2} = {result}")
+        # Fourth row: 9
+        if cols[1].button("9", key="btn_9"):
+            display += "9"
+        # Operator buttons
+        operators = ['+', '-', '*', '/']
+        for i, op in enumerate(operators):
+            if cols[3].button(op, key=f"btn_{op}"):
+                display += op
 
-    if col4.button("Divide"):
-        if num2 != 0:
-            result = equation.divide(num1, num2)
-            st.write(f"{num1} / {num2} = {result}")
-        else:
-            st.error("Cannot divide by zero!")
+        # Function buttons
+        functions = ['sqrt', 'log', 'abs', 'fact']
+        for i, func in enumerate(functions):
+            if cols[4 + i // 2].button(func, key=f"btn_{func}"):
+                display = f"{func}({display})"
 
-    # Complex operations
-    if col5.button("Power"):
-        result = equation.power(num1, num2)
-        st.write(f"{num1} ^ {num2} = {result}")
+        # Special buttons
+        if cols[6].button("C", key="btn_clear"):
+            display = "0"
+        if cols[6].button("=", key="btn_equals"):
+            try:
+                result = eval(display)
+                display = str(result)
+            except:
+                display = "Error"
 
-    if col6.button("Square Root"):
-        result = equation.square_root(num1)
-        st.write(f"√{num1} = {result}")
-
-    if col7.button("Logarithm"):
-        if num1 > 0:
-            result = equation.logarithm(num1)
-            st.write(f"log({num1}) = {result}")
-        else:
-            st.error("Cannot calculate logarithm of non-positive number!")
-
-    if col8.button("Factorial"):
-        if num1.is_integer() and num1 >= 0:
-            result = equation.factorial(int(num1))
-            st.write(f"{int(num1)}! = {result}")
-        else:
-            st.error("Factorial is only defined for non-negative integers!")
-
-    # New button for absolute value
-    if col9.button("Absolute Value"):
-        result = equation.absolute_value(num1)
-        st.write(f"|{num1}| = {result}")
-
-    # New button for circle area
-    if col10.button("Circle Area"):
-        if num1 >= 0:
-            result = equation.circle_area(num1)
-            st.write(f"Area of circle with radius {num1} = {result}")
-        else:
-            st.error("Radius cannot be negative!")
+    # Show result
+    st.text_input("Result", value=display, key="result", disabled=True)
 
 if __name__ == "__main__":
     main()
