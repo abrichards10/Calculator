@@ -5,7 +5,7 @@
 ### Features:
 
 - Add feature: adds two number together
-- Subract feature:
+- Subract feature: subracts two numbers
 
 ### Intallation:
 
